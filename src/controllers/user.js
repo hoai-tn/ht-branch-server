@@ -16,8 +16,9 @@ const signIn = async (req, res) => {
       expiresIn: '1h',
     });
 
-    return res.status(200).json({ token, exitingUser });
+    return res.status(200).json({ token, result: exitingUser });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Something went wrong.' });
   }
 };
@@ -29,7 +30,13 @@ const signUp = async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 12);
 
-    const result = await User.create({ email, password: hashPassword, name });
+    const result = await User.create({
+      email,
+      password: hashPassword,
+      name,
+      picture:
+        'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg',
+    });
 
     const token = jwt.sign({ email: result.email, id: result._id }, 'test', {
       expiresIn: '1h',

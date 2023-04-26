@@ -3,15 +3,18 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const user = require('./routers/user');
+const product = require('./routers/product');
+const cart = require('./routers/cart');
+
 const app = express();
 const port = process.env.PORT || 3333;
 
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(bodyParser.json({ limit: '30mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
 app.get('/', (req, res) => {
@@ -28,6 +31,8 @@ mongoose
   });
 
 app.use('/user', user);
+app.use('/product', product);
+app.use('/cart', cart);
 app.listen('8989', () => {
   console.log(`app listening on port ${8989}`);
 });
