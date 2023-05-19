@@ -52,7 +52,7 @@ const addToCart = async (req, res) => {
     } else {
       result = await Cart.create({ userId, products: [product] });
     }
-    res.status(200).send({ result });
+    res.status(200).send(result);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Something went wrong.' });
@@ -67,14 +67,13 @@ const removeCart = async (req, res) => {
       res.status(400).json({ message: 'Could not found userID.' });
     } else {
       const findProductById = findCartByUser.products.find((e) => e._id.equals(productId));
-      const newQuantity = findProductById.quantity - quantity;
       let result;
-      if (newQuantity > 0) {
+      if (quantity > 0) {
         result = await Cart.findOneAndUpdate(
           { 'products._id': findProductById._id },
           {
             $set: {
-              'products.$.quantity': newQuantity,
+              'products.$.quantity': quantity,
             },
           },
           {
@@ -95,7 +94,7 @@ const removeCart = async (req, res) => {
           }
         );
       }
-      res.status(200).send({ result });
+      res.status(200).send(result);
     }
   } catch (error) {
     console.log(error);
