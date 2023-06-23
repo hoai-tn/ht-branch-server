@@ -33,6 +33,6 @@ mongoose
 app.use('/user', user);
 app.use('/product', product);
 app.use('/cart', cart);
-app.listen('8989', () => {
-  console.log(`app listening on port ${8989}`);
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`);
 });
